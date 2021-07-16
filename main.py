@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request
+from fastapi.exceptions import HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -27,6 +28,7 @@ async def api(
         old_url = url if re.match(r"^https?://", url) else "http://" + url
     else:
         return RedirectResponse("/docs")
+
     if not output:
         output = "html"
 
@@ -53,6 +55,7 @@ async def api(
             )
         if output == "json":
             return {"exception": str(exception)}
+
         if output == "redirect":
             raise HTTPException(status_code=500)
 
@@ -68,4 +71,5 @@ async def api(
         return RedirectResponse(new_url)
 
 
-uvicorn.run(app=app, host="0.0.0.0", port=port)
+if __name__ == "__main__":
+    uvicorn.run(app=app, host="0.0.0.0", port=port)
