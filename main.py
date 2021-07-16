@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.exceptions import HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional
@@ -52,7 +52,7 @@ async def docs_route_func():
     return get_swagger_ui_html(openapi_url=app.openapi_url, title=app.title + " docs")
 
 
-@app.get("/")
+@app.get("/", include_in_schema=False)
 async def home(request: Request):
     return templates.TemplateResponse("index.html", context={"request": request})
 
@@ -117,16 +117,37 @@ async def api(
         return RedirectResponse(new_url)
 
 
+@app.exception_handler(400)
+async def not_found_error_handle(request: Request, the_error: HTTPException):
+    errortype = type(the_error).__name__
+    the_error_name = the_error if errortype != "HTTPException" else the_error.detail
+    return templates.TemplateResponse(
+        "error.html",
+        context={
+            "request": request,
+            "exception": f"400 {errortype}: {the_error_name}",
+        },
+    )
+
+
+@app.exception_handler(404)
+async def not_found_error_handle(request: Request, the_error: HTTPException):
+    return templates.TemplateResponse(
+        "error.html", context={"request": request, "exception": "404: not found"}
+    )
+
+
 if show_server_errors:
-    from fastapi.responses import JSONResponse
 
     @app.exception_handler(500)
     async def internal_server_error(request: Request, the_error: HTTPException):
-        return JSONResponse(
-            status_code=500,
-            content={
-                "error": f"{type(the_error).__name__}: {the_error}",
-                "status_code": "500",
+        errortype = type(the_error).__name__
+        the_error_name = the_error if errortype != "HTTPException" else the_error.detail
+        return templates.TemplateResponse(
+            "error.html",
+            context={
+                "request": request,
+                "exception": f"server_error: {errortype}: {the_error_name}",
             },
         )
 
