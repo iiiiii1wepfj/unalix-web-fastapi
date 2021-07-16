@@ -117,10 +117,19 @@ async def api(
         return RedirectResponse(new_url)
 
 
+async def get_error_message(error):
+    errortype = type(error).__name__
+    if errortype != "HTTPException":
+        the_error = error
+    else:
+        the_error = error.detail
+    return the_error
+
+
 @app.exception_handler(400)
 async def not_found_error_handle(request: Request, the_error: HTTPException):
     errortype = type(the_error).__name__
-    the_error_name = the_error if errortype != "HTTPException" else the_error.detail
+    the_error_name = await get_error_message(error=the_error)
     return templates.TemplateResponse(
         "error.html",
         context={
@@ -142,7 +151,7 @@ if show_server_errors:
     @app.exception_handler(500)
     async def internal_server_error(request: Request, the_error: HTTPException):
         errortype = type(the_error).__name__
-        the_error_name = the_error if errortype != "HTTPException" else the_error.detail
+        the_error_name = await get_error_message(error=the_error)
         return templates.TemplateResponse(
             "error.html",
             context={
