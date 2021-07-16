@@ -1,0 +1,170 @@
+html, body {
+    display: flex;
+    flex-direction: column;
+    font-size: calc((12px + 0.4vw));
+    background-color: #0a0a1e;
+}
+
+a {
+    color:#FFF;
+    outline: none;
+}
+a:hover {
+    color: #cba924;
+}
+
+div.top-banner {
+    width: 100%;
+    height: 100vh;
+    padding: 6rem 2rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 0 1 auto;
+
+    color: white;
+    text-align: center; 
+}
+
+.top-banner-title {
+    font-weight: 500;
+    font-size: 3.5rem;
+    margin-block-start: 16px;
+    margin-block-end: 16px;
+}
+
+.top-banner-subtitle {
+    font-size: 1.5rem;
+}
+
+div.link-form {
+    width: 40%;
+    min-width: 240px;
+    margin: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+}
+
+div.link-form * {
+    margin: 0.25rem 0;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.redirect-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+div.redirect-container a {
+    font-size: 1.2rem;
+}
+
+div#action * {
+    margin:0;
+}
+
+div#action #urlDirect {
+    border-radius:0.25rem 0px 0px 0.25rem;
+}
+
+div#action #unshortDirectButton {
+    border-radius:0px 0.25rem 0.25rem 0px;
+}
+
+#buttonRedirect {
+    max-width: 800px;
+    word-break: break-all;
+    display: block;
+    margin:auto;
+}
+
+.btn-primary {
+    color: #000;
+    background-color: #cca724;
+    border-color: #cca724;
+}
+
+.btn-primary:hover,
+.btn-primary:focus, .btn-primary:active {
+    color: #000 !important;
+    background-color: #d69629 !important;
+    border-color: #d69629 !important;
+    box-shadow: none !important;
+}
+
+#error h2 {
+    color:red;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #ced4da;
+}
+
+#redirectLinkTextArea{
+    width:100%;
+    max-width: 800px;
+    word-break: break-all;
+    text-align: center;
+    display: none;
+    margin:auto;
+}
+
+@-webkit-keyframes gradient-animation {
+    0%{background-position:0% 41%}
+    50%{background-position:100% 60%}
+    100%{background-position:0% 41%}
+}
+
+@-moz-keyframes gradient-animation {
+    0%{background-position:0% 41%}
+    50%{background-position:100% 60%}
+    100%{background-position:0% 41%}
+}
+
+@keyframes gradient-animation {
+    0%{background-position:0% 41%}
+    50%{background-position:100% 60%}
+    100%{background-position:0% 41%}
+}
+
+@media screen and (max-width: 555px) {
+    div#action #urlDirect{
+        border-radius:0.25rem 0.25rem 0px 0px;
+    }
+    
+    div#action #unshortDirectButton{
+        border-radius:0px 0px 0.25rem 0.25rem;
+    }
+}
+
+@media screen and (min-width: 556px) {
+    div.top-banner {
+        height: initial;
+    }
+
+    div#action input[placeholder] {
+        flex: 1 1 auto;
+    }
+
+    div.link-form {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    div.link-form * {
+        margin: 0 0.25rem;
+    }
+
+}
