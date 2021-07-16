@@ -3,6 +3,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional
+from config import port
 import uvicorn, unalix, re
 
 app = FastAPI()
@@ -67,4 +68,4 @@ async def api(
         return RedirectResponse(new_url)
 
 
-uvicorn.run(app=app, port=8001)
+uvicorn.run(app=app, host="0.0.0.0", port=port)
