@@ -1,16 +1,26 @@
 from fastapi import FastAPI, Request
 from fastapi.exceptions import HTTPException
+from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional
 from loguru import logger
 from config import port
-import uvicorn, unalix, re, sys
+import uvicorn
+import unalix
+import re
+import sys
 
-app = FastAPI()
+app = FastAPI(
+    docs_url=None,
+    title="Unalix-web",
+    description="source code: https://github.com/AmanoTeam/unalix-web-fastapi.",
+    version="2.0",
+)
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"))
+show_server_errors = False
 
 logger.add(
     sys.stdout,
@@ -35,6 +45,11 @@ async def app_startup_actions():
 @app.on_event("shutdown")
 async def app_shutdown_actions():
     logger.info("app stopped.")
+
+
+@app.get("/docs", include_in_schema=False)
+async def docs_route_func():
+    return get_swagger_ui_html(openapi_url=app.openapi_url, title=app.title + " docs")
 
 
 @app.get("/")
@@ -101,6 +116,23 @@ async def api(
     if output == "redirect":
         return RedirectResponse(new_url)
 
+
+if show_server_errors:
+    from fastapi.responses import JSONResponse
+
+    @app.exception_handler(500)
+    async def internal_server_error(request: Request, the_error: HTTPException):
+        return JSONResponse(
+            status_code=500,
+            content={
+                "error": f"{type(the_error).__name__}: {the_error}",
+                "status_code": "500",
+            },
+        )
+
+
+else:
+    pass
 
 if __name__ == "__main__":
     uvicorn.run(app=app, host="0.0.0.0", port=port)
