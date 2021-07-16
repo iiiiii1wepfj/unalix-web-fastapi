@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Unalix
+  </title>
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+ </head>
+ <body>
+  <div class="top-banner">
+   <a class="top-banner-title" href="/">
+    Unalix
+   </a>
+   <div class="w-100" style="text-align: center">
+    <p>
+     We did our best, and... That's the result:
+     <br/>
+    </p>
+    <a class="btn btn-lg btn-primary" href="{{new_url}}" id="buttonRedirect" type="submit">
+     <span>
+      {{new_url}}
+     </span>
+    </a>
+    <small id="editNote">
+     Click longer on the button to edit link
+    </small>
+    <textarea class="btn-lg btn-primary" id="redirectLinkTextArea">{{new_url}}</textarea>
+   </div>
+   <script>
+       
+        let linkText = document.getElementById("redirectLinkTextArea");
+        let linkButton = document.getElementById("buttonRedirect");
+        let editNote = document.getElementById("editNote");
+        
+        var pressTimer;
+        
+       linkButton.onpointerup = function() {
+       	
+            clearTimeout(pressTimer);
+            
+        };
+        
+        linkButton.onpointerdown = function() {
+            
+            pressTimer = window.setTimeout(function() {
+                linkText.style.display="block";
+                linkButton.style.display="none";
+                editNote.style.display="none";
+            }, 600);
+        
+        };
+        
+   </script>
+  </div>
+ </body>
+</html>

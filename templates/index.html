@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Unalix
+  </title>
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+  <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+ </head>
+ <body>
+  <div class="top-banner">
+   <a class="top-banner-title" href="/">
+    Unalix
+   </a>
+   <p class="top-banner-subtitle">
+    Remove tracking fields and unshort shortened URLs.
+   </p>
+   <div class="link-form" id="action">
+    <input aria-label="Unshort" class="form-control" id="urlDirect" placeholder="Type or paste some URL" type="text"/>
+    <button class="btn btn-primary" id="unshortDirectButton" type="submit">
+     clear/unshort
+    </button>
+   </div>
+   <div id="headerLinks">
+   </div>
+   <script>
+        let buttonDirectElement = document.getElementById("unshortDirectButton");
+        let urlDirectElement = document.getElementById("urlDirect");
+        let headerLinks = document.getElementById("headerLinks");
+        
+        function handleAction() {
+            
+            if (urlDirectElement.value != "") {
+                window.location.href = "/api?url=" + encodeURIComponent(urlDirectElement.value);
+                return;
+            }
+        
+        }
+
+        buttonDirectElement.addEventListener("click", handleAction);
+        urlDirectElement.addEventListener("keyup", function(event) {
+        
+        if (event.keyCode === 13) {
+            handleAction();
+        }
+        
+        });
+   </script>
+  </div>
+ </body>
+</html>
