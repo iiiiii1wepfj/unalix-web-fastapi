@@ -4,12 +4,37 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional
+from loguru import logger
 from config import port
-import uvicorn, unalix, re
+import uvicorn, unalix, re, sys
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"))
+
+logger.add(
+    sys.stdout,
+    colorize=True,
+    format="<green>{time:HH:mm:ss}</green> | {level} | <level>{message}</level>",
+)
+
+
+async def check_url(url: str):
+    if re.match(r"^https?://", url):
+        the_url = url
+    else:
+        the_url = "http://" + url
+    return the_url
+
+
+@app.on_event("startup")
+async def app_startup_actions():
+    logger.info("app started.")
+
+
+@app.on_event("shutdown")
+async def app_shutdown_actions():
+    logger.info("app stopped.")
 
 
 @app.get("/")
@@ -25,10 +50,7 @@ async def api(
     output: Optional[str] = None,
 ):
     if url:
-        if re.match(r"^https?://", url):
-            old_url = url
-        else:
-            old_url = "http://" + url
+        old_url = await check_url(url)
     else:
         return RedirectResponse("/docs")
 
