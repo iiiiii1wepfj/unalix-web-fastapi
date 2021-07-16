@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional
-from config import host, port
+from config import port
 import uvicorn, unalix, re
 
 app = FastAPI()
@@ -25,7 +25,10 @@ async def api(
     output: Optional[str] = None,
 ):
     if url:
-        old_url = url if re.match(r"^https?://", url) else "http://" + url
+        if re.match(r"^https?://", url):
+            old_url = url
+        else:
+            old_url = "http://" + url
     else:
         return RedirectResponse("/docs")
 
@@ -36,10 +39,16 @@ async def api(
         method = "unshort"
 
     if not output in ["json", "html", "redirect"]:
-        raise HTTPException(status_code=400)
+        raise HTTPException(
+            status_code=400,
+            detail="invalid output type, the supported output types are json or html or redirect.",
+        )
 
     if not method in ["clear", "unshort"]:
-        raise HTTPException(status_code=400)
+        raise HTTPException(
+            status_code=400,
+            detail="invalid method type, the supported method types are clear or unshort.",
+        )
 
     try:
         if method == "unshort":
@@ -72,4 +81,4 @@ async def api(
 
 
 if __name__ == "__main__":
-    uvicorn.run(app=app, host=host, port=port)
+    uvicorn.run(app=app, host="0.0.0.0", port=port)
