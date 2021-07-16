@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional
 from loguru import logger
-from config import port
+from config import host, port, show_server_errors
 import uvicorn
 import unalix
 import re
@@ -165,4 +165,4 @@ else:
     pass
 
 if __name__ == "__main__":
-    uvicorn.run(app=app, host="0.0.0.0", port=port)
+    uvicorn.run(app=app, host=host, port=port)
