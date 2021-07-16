@@ -1,3 +1,4 @@
 fastapi[all]
 uvicorn
 unalix
+loguru
