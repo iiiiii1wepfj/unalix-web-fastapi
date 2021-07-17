@@ -6,7 +6,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from typing import Optional
 from loguru import logger
-from config import host, port, show_server_errors
+from config import host
+from config import port
+from config import show_server_errors
 import uvicorn
 import unalix
 import re
@@ -20,7 +22,6 @@ app = FastAPI(
 )
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"))
-show_server_errors = False
 
 logger.add(
     sys.stdout,
