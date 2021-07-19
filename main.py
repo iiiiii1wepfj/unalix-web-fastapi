@@ -22,8 +22,12 @@ import re
 import sys
 
 
-
-app = FastAPI(docs_url=None, title=app_title, description=app_description, version=app_version)
+app = FastAPI(
+    docs_url=None,
+    title=app_title,
+    description=app_description,
+    version=app_version,
+)
 
 templates = Jinja2Templates(directory="templates")
 
