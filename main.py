@@ -1,14 +1,21 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
+from fastapi import Request
+from fastapi import __version__ as fastapi_version
 from fastapi.exceptions import HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette import __version__ as starlette_version
 from typing import Optional
 from loguru import logger
+from platform import python_version
 from config import host
 from config import port
 from config import show_server_errors
+from config import app_title
+from config import app_description
+from config import app_version
 import uvicorn
 import unalix
 import re
@@ -16,9 +23,9 @@ import sys
 
 app = FastAPI(
     docs_url=None,
-    title="Unalix-web",
-    description="source code: https://github.com/AmanoTeam/unalix-web-fastapi.",
-    version="2.0",
+    title=app_title,
+    description=app_description,
+    version=app_version,
 )
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"))
@@ -40,7 +47,9 @@ async def check_url(url: str):
 
 @app.on_event("startup")
 async def app_startup_actions():
-    logger.info("app started.")
+    logger.info(
+        f"app started.\npython version: {python_version()}\napp version: {app_version}\nfastapi version: {fastapi_version}\nstarlette version: {starlette_version}\nuvicorn version: {uvicorn.__version__}"
+    )
 
 
 @app.on_event("shutdown")
@@ -50,7 +59,9 @@ async def app_shutdown_actions():
 
 @app.get("/docs", include_in_schema=False)
 async def docs_route_func():
-    return get_swagger_ui_html(openapi_url=app.openapi_url, title=app.title + " docs")
+    the_openapi_url = app.openapi_url
+    the_docs_title = app.title + " docs"
+    return get_swagger_ui_html(openapi_url=the_openapi_url, title=the_docs_title)
 
 
 @app.get("/", include_in_schema=False)
