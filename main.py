@@ -146,15 +146,16 @@ async def not_found_error_handle(request: Request, the_error: HTTPException):
         "error.html",
         context={
             "request": request,
-            "exception": f"400 {errortype}: {the_error_name}",
+            "exception": f"error 400 {errortype}: {the_error_name}",
         },
     )
 
 
 @app.exception_handler(404)
 async def not_found_error_handle(request: Request, the_error: HTTPException):
+    request_path = request.url.path
     return templates.TemplateResponse(
-        "error.html", context={"request": request, "exception": "404: not found"}
+        "error.html", context={"request": request, "exception": f"error 404: page {request_path} is not found"}
     )
 
 
@@ -168,7 +169,7 @@ if show_server_errors:
             "error.html",
             context={
                 "request": request,
-                "exception": f"server_error: {errortype}: {the_error_name}",
+                "exception": f"internal server error: {errortype}: {the_error_name}",
             },
         )
 
