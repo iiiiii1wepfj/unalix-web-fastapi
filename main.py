@@ -28,6 +28,7 @@ app = FastAPI(
     version=app_version,
 )
 templates = Jinja2Templates(directory="templates")
+
 app.mount("/static", StaticFiles(directory="static"))
 
 logger.add(
