@@ -48,7 +48,7 @@ async def check_url(url: str):
 @app.on_event("startup")
 async def app_startup_actions():
     logger.info(
-        f"app started.\npython version: {python_version()}\napp version: {app_version}\nfastapi version: {fastapi_version}\nstarlette version: {starlette_version}\nuvicorn version: {uvicorn.__version__}"
+        f"app started.\npython version: {python_version()}\napp version: {app_version}\nunalix version: {unalix.__version__}\nfastapi version: {fastapi_version}\nstarlette version: {starlette_version}\nuvicorn version: {uvicorn.__version__}"
     )
 
 
