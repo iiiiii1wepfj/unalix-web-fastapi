@@ -55,7 +55,8 @@ async def check_url(url: str):
 
 
 async def get_error_message(error):
-    errortype = type(error).__name__
+    errortype = type(error)
+    errortype = errortype.__name__
     if errortype != "HTTPException":
         the_error = error
     else:
@@ -194,7 +195,8 @@ async def not_found_error_handle(
     request: Request,
     the_error: HTTPException,
 ):
-    errortype = type(the_error).__name__
+    errortype = type(the_error)
+    errortype = errortype.__name__
     the_error_name = await get_error_message(error=the_error)
     return templates.TemplateResponse(
         "error.html",
@@ -227,7 +229,8 @@ if show_server_errors:
         request: Request,
         the_error: HTTPException,
     ):
-        errortype = type(the_error).__name__
+        errortype = type(the_error)
+        errortype = errortype.__name__
         the_error_name = await get_error_message(error=the_error)
         return templates.TemplateResponse(
             "error.html",
