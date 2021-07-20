@@ -109,9 +109,13 @@ async def docs_route_func():
     )
 
 
-@app.get(
+@app.api_route(
     "/",
     include_in_schema=False,
+    methods=[
+        "POST",
+        "GET",
+    ],
 )
 async def home(
     request: Request,
