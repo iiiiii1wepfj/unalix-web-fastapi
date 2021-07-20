@@ -47,7 +47,9 @@ logger.add(
 )
 
 
-async def check_url(url: str):
+async def check_url(
+    url: str,
+):
     if re.match(
         r"^https?://",
         url,
@@ -58,7 +60,9 @@ async def check_url(url: str):
     return the_url
 
 
-async def get_error_message(error):
+async def get_error_message(
+    error,
+):
     errortype = type(error)
     errortype = errortype.__name__
     if errortype != "HTTPException":
@@ -68,7 +72,9 @@ async def get_error_message(error):
     return the_error
 
 
-@app.on_event("startup")
+@app.on_event(
+    "startup",
+)
 async def app_startup_actions():
     py_version = python_version()
     unalix_version = unalix.__version__
@@ -78,7 +84,9 @@ async def app_startup_actions():
     )
 
 
-@app.on_event("shutdown")
+@app.on_event(
+    "shutdown",
+)
 async def app_shutdown_actions():
     logger.info(
         "app stopped.",
@@ -102,7 +110,9 @@ async def docs_route_func():
     "/",
     include_in_schema=False,
 )
-async def home(request: Request):
+async def home(
+    request: Request,
+):
     return templates.TemplateResponse(
         "index.html",
         context={
@@ -204,7 +214,9 @@ async def api(
         return RedirectResponse(new_url)
 
 
-@app.exception_handler(400)
+@app.exception_handler(
+    400,
+)
 async def not_found_error_handle(
     request: Request,
     the_error: HTTPException,
@@ -223,7 +235,9 @@ async def not_found_error_handle(
     )
 
 
-@app.exception_handler(404)
+@app.exception_handler(
+    404,
+)
 async def not_found_error_handle(
     request: Request,
     the_error: HTTPException,
@@ -241,7 +255,9 @@ async def not_found_error_handle(
 
 if show_server_errors:
 
-    @app.exception_handler(500)
+    @app.exception_handler(
+        500,
+    )
     async def internal_server_error(
         request: Request,
         the_error: HTTPException,
