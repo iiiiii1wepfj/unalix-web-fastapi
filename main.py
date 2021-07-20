@@ -63,7 +63,9 @@ async def check_url(
 async def get_error_message(
     error,
 ):
-    errortype = type(error)
+    errortype = type(
+        error,
+    )
     errortype = errortype.__name__
     if errortype != "HTTPException":
         the_error = error
@@ -139,7 +141,9 @@ async def api(
             url=url,
         )
     else:
-        return RedirectResponse("/docs")
+        return RedirectResponse(
+            "/docs",
+        )
 
     if not output:
         output = "html"
@@ -173,7 +177,9 @@ async def api(
                 parse_documents=True,
             )
         elif method == "clear":
-            new_url = unalix.clear_url(old_url)
+            new_url = unalix.clear_url(
+                old_url,
+            )
     except unalix.exceptions.ConnectError as exception:
         new_url = exception.url
     except Exception as exception:
@@ -211,7 +217,9 @@ async def api(
         }
 
     if output == "redirect":
-        return RedirectResponse(new_url)
+        return RedirectResponse(
+            new_url,
+        )
 
 
 @app.exception_handler(
@@ -221,7 +229,9 @@ async def not_found_error_handle(
     request: Request,
     the_error: HTTPException,
 ):
-    errortype = type(the_error)
+    errortype = type(
+        the_error,
+    )
     errortype = errortype.__name__
     the_error_name = await get_error_message(
         error=the_error,
@@ -262,7 +272,9 @@ if show_server_errors:
         request: Request,
         the_error: HTTPException,
     ):
-        errortype = type(the_error)
+        errortype = type(
+            the_error,
+        )
         errortype = errortype.__name__
         the_error_name = await get_error_message(
             error=the_error,
