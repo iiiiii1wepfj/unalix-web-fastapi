@@ -3,7 +3,8 @@ from fastapi import Request
 from fastapi import __version__ as fastapi_version
 from fastapi.exceptions import HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import RedirectResponse, JSONResponse
+from fastapi.responses import RedirectResponse
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette import __version__ as starlette_version
@@ -299,4 +300,8 @@ if __name__ == "__main__":
         app=app,
         host=host,
         port=port,
+    )
+else:
+    sys.exit(
+        1,
     )
