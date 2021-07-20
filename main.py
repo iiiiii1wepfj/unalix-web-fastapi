@@ -105,7 +105,9 @@ async def docs_route_func():
 async def home(request: Request):
     return templates.TemplateResponse(
         "index.html",
-        context={"request": request},
+        context={
+            "request": request,
+        },
     )
 
 
@@ -172,7 +174,9 @@ async def api(
                 },
             )
         if output == "json":
-            return {"exception": f"{type(exception)}: {exception}"}
+            return {
+                "exception": f"{type(exception)}: {exception}",
+            }
 
         if output == "redirect":
             raise HTTPException(
@@ -190,7 +194,9 @@ async def api(
         )
 
     if output == "json":
-        return {"new_url": f"{new_url}"}
+        return {
+            "new_url": f"{new_url}",
+        }
 
     if output == "redirect":
         return RedirectResponse(new_url)
