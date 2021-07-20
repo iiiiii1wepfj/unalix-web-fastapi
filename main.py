@@ -44,7 +44,10 @@ logger.add(
 
 
 async def check_url(url: str):
-    if re.match(r"^https?://", url):
+    if re.match(
+        r"^https?://",
+        url,
+    ):
         the_url = url
     else:
         the_url = "http://" + url
