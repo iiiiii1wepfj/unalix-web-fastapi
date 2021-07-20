@@ -31,7 +31,10 @@ app = FastAPI(
 
 templates = Jinja2Templates(directory="templates")
 
-app.mount("/static", StaticFiles(directory="static"))
+app.mount(
+    "/static",
+    StaticFiles(directory="static"),
+)
 
 logger.add(
     sys.stdout,
@@ -69,7 +72,10 @@ async def app_shutdown_actions():
     logger.info("app stopped.")
 
 
-@app.get("/docs", include_in_schema=False)
+@app.get(
+    "/docs",
+    include_in_schema=False,
+)
 async def docs_route_func():
     the_openapi_url = app.openapi_url
     the_docs_title = app.title + " docs"
@@ -79,7 +85,10 @@ async def docs_route_func():
     )
 
 
-@app.get("/", include_in_schema=False)
+@app.get(
+    "/",
+    include_in_schema=False,
+)
 async def home(request: Request):
     return templates.TemplateResponse(
         "index.html",
@@ -87,7 +96,13 @@ async def home(request: Request):
     )
 
 
-@app.api_route("/api", methods=["POST", "GET"])
+@app.api_route(
+    "/api",
+    methods=[
+        "POST",
+        "GET",
+    ],
+)
 async def api(
     request: Request,
     method: Optional[str] = None,
@@ -105,13 +120,20 @@ async def api(
     if not method:
         method = "unshort"
 
-    if not output in ["json", "html", "redirect"]:
+    if not output in [
+        "json",
+        "html",
+        "redirect",
+    ]:
         raise HTTPException(
             status_code=400,
             detail="invalid output type, the supported output types are json or html or redirect.",
         )
 
-    if not method in ["clear", "unshort"]:
+    if not method in [
+        "clear",
+        "unshort",
+    ]:
         raise HTTPException(
             status_code=400,
             detail="invalid method type, the supported method types are clear or unshort.",
