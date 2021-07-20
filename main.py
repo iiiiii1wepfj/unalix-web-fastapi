@@ -92,7 +92,7 @@ async def app_startup_actions():
 )
 async def app_shutdown_actions():
     logger.info(
-        "app stopped.",
+        "app stopped, bye.",
     )
 
 
