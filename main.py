@@ -48,6 +48,15 @@ async def check_url(url: str):
     return the_url
 
 
+async def get_error_message(error):
+    errortype = type(error).__name__
+    if errortype != "HTTPException":
+        the_error = error
+    else:
+        the_error = error.detail
+    return the_error
+
+
 @app.on_event("startup")
 async def app_startup_actions():
     logger.info(
@@ -64,12 +73,18 @@ async def app_shutdown_actions():
 async def docs_route_func():
     the_openapi_url = app.openapi_url
     the_docs_title = app.title + " docs"
-    return get_swagger_ui_html(openapi_url=the_openapi_url, title=the_docs_title)
+    return get_swagger_ui_html(
+        openapi_url=the_openapi_url,
+        title=the_docs_title,
+    )
 
 
 @app.get("/", include_in_schema=False)
 async def home(request: Request):
-    return templates.TemplateResponse("index.html", context={"request": request})
+    return templates.TemplateResponse(
+        "index.html",
+        context={"request": request},
+    )
 
 
 @app.api_route("/api", methods=["POST", "GET"])
@@ -80,7 +95,7 @@ async def api(
     output: Optional[str] = None,
 ):
     if url:
-        old_url = await check_url(url)
+        old_url = await check_url(url=url)
     else:
         return RedirectResponse("/docs")
 
@@ -104,7 +119,10 @@ async def api(
 
     try:
         if method == "unshort":
-            new_url = unalix.unshort_url(old_url, parse_documents=True)
+            new_url = unalix.unshort_url(
+                old_url,
+                parse_documents=True,
+            )
         elif method == "clear":
             new_url = unalix.clear_url(old_url)
     except unalix.exceptions.ConnectError as exception:
@@ -112,37 +130,42 @@ async def api(
     except Exception as exception:
         if output == "html":
             return templates.TemplateResponse(
-                "error.html", context={"request": request, "exception": str(exception)}
+                "error.html",
+                context={
+                    "request": request,
+                    "exception": f"{type(exception)}: {exception}",
+                },
             )
         if output == "json":
-            return {"exception": str(exception)}
+            return {"exception": f"{type(exception)}: {exception}"}
 
         if output == "redirect":
-            raise HTTPException(status_code=500)
+            raise HTTPException(
+                status_code=500,
+                detail=f"{type(exception)}: {exception}",
+            )
 
     if output == "html":
         return templates.TemplateResponse(
-            "success.html", context={"request": request, "new_url": new_url}
+            "success.html",
+            context={
+                "request": request,
+                "new_url": f"{new_url}",
+            },
         )
 
     if output == "json":
-        return {"new_url": new_url}
+        return {"new_url": f"{new_url}"}
 
     if output == "redirect":
         return RedirectResponse(new_url)
 
 
-async def get_error_message(error):
-    errortype = type(error).__name__
-    if errortype != "HTTPException":
-        the_error = error
-    else:
-        the_error = error.detail
-    return the_error
-
-
 @app.exception_handler(400)
-async def not_found_error_handle(request: Request, the_error: HTTPException):
+async def not_found_error_handle(
+    request: Request,
+    the_error: HTTPException,
+):
     errortype = type(the_error).__name__
     the_error_name = await get_error_message(error=the_error)
     return templates.TemplateResponse(
@@ -155,7 +178,10 @@ async def not_found_error_handle(request: Request, the_error: HTTPException):
 
 
 @app.exception_handler(404)
-async def not_found_error_handle(request: Request, the_error: HTTPException):
+async def not_found_error_handle(
+    request: Request,
+    the_error: HTTPException,
+):
     request_path = request.url.path
     return templates.TemplateResponse(
         "error.html",
@@ -169,7 +195,10 @@ async def not_found_error_handle(request: Request, the_error: HTTPException):
 if show_server_errors:
 
     @app.exception_handler(500)
-    async def internal_server_error(request: Request, the_error: HTTPException):
+    async def internal_server_error(
+        request: Request,
+        the_error: HTTPException,
+    ):
         errortype = type(the_error).__name__
         the_error_name = await get_error_message(error=the_error)
         return templates.TemplateResponse(
@@ -185,4 +214,8 @@ else:
     pass
 
 if __name__ == "__main__":
-    uvicorn.run(app=app, host=host, port=port)
+    uvicorn.run(
+        app=app,
+        host=host,
+        port=port,
+    )
