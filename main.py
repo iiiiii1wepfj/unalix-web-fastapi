@@ -216,7 +216,8 @@ async def not_found_error_handle(
     request: Request,
     the_error: HTTPException,
 ):
-    request_path = request.url.path
+    request_path = request.url
+    request_path = request_path.path
     return templates.TemplateResponse(
         "error.html",
         context={
