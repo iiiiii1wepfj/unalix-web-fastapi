@@ -183,23 +183,26 @@ async def api(
     except unalix.exceptions.ConnectError as exception:
         new_url = exception.url
     except Exception as exception:
+        errtype = type(
+            exception,
+        )
         if output == "html":
             return templates.TemplateResponse(
                 "error.html",
                 context={
                     "request": request,
-                    "exception": f"{type(exception)}: {exception}",
+                    "exception": f"{errtype}: {exception}",
                 },
             )
         if output == "json":
             return {
-                "exception": f"{type(exception)}: {exception}",
+                "exception": f"{errtype}: {exception}",
             }
 
         if output == "redirect":
             raise HTTPException(
                 status_code=500,
-                detail=f"{type(exception)}: {exception}",
+                detail=f"{errtype}: {exception}",
             )
 
     if output == "html":
