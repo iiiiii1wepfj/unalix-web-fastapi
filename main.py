@@ -80,7 +80,9 @@ async def app_startup_actions():
 
 @app.on_event("shutdown")
 async def app_shutdown_actions():
-    logger.info("app stopped.")
+    logger.info(
+        "app stopped.",
+    )
 
 
 @app.get(
