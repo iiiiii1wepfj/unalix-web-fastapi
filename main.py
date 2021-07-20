@@ -125,7 +125,9 @@ async def api(
     output: Optional[str] = None,
 ):
     if url:
-        old_url = await check_url(url=url)
+        old_url = await check_url(
+            url=url,
+        )
     else:
         return RedirectResponse("/docs")
 
@@ -209,7 +211,9 @@ async def not_found_error_handle(
 ):
     errortype = type(the_error)
     errortype = errortype.__name__
-    the_error_name = await get_error_message(error=the_error)
+    the_error_name = await get_error_message(
+        error=the_error,
+    )
     return templates.TemplateResponse(
         "error.html",
         context={
@@ -244,7 +248,9 @@ if show_server_errors:
     ):
         errortype = type(the_error)
         errortype = errortype.__name__
-        the_error_name = await get_error_message(error=the_error)
+        the_error_name = await get_error_message(
+            error=the_error,
+        )
         return templates.TemplateResponse(
             "error.html",
             context={
