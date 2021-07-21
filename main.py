@@ -270,7 +270,7 @@ async def not_found_error_handle(
 @app.exception_handler(
     404,
 )
-async def not_found_error_handle(
+async def page_not_found_error_handle(
     request: Request,
     the_error: HTTPException,
 ):
@@ -285,6 +285,23 @@ async def not_found_error_handle(
         context={
             "request": request,
             "exception": f"error 404: page {request_full_url} is not found",
+        },
+    )
+
+
+@app.exception_handler(
+    405,
+)
+async def method_not_allowed_error_handle(
+    request: Request,
+    the_error: HTTPException,
+):
+    return templates.TemplateResponse(
+        "error.html",
+        status_code=405,
+        context={
+            "request": request,
+            "exception": f"error 405: method not allowed",
         },
     )
 
