@@ -276,12 +276,15 @@ async def not_found_error_handle(
 ):
     request_path = request.url
     request_path = request_path.path
+    request_url = request.client
+    request_url = request_url.host
+    request_full_url = f"{request_url}{request_path}"
     return templates.TemplateResponse(
         "error.html",
         status_code=404,
         context={
             "request": request,
-            "exception": f"error 404: page {request_path} is not found",
+            "exception": f"error 404: page {request_full_url} is not found",
         },
     )
 
