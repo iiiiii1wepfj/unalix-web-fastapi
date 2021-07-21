@@ -4,7 +4,7 @@ from fastapi import __version__ as fastapi_version
 from fastapi.exceptions import HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import RedirectResponse
-from fastapi.responses import JSONResponse
+from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette import __version__ as starlette_version
@@ -122,6 +122,7 @@ async def home(
 ):
     return templates.TemplateResponse(
         "index.html",
+        status_code=200,
         context={
             "request": request,
         },
@@ -194,15 +195,20 @@ async def api(
         if output == "html":
             return templates.TemplateResponse(
                 "error.html",
+                status_code=500,
                 context={
                     "request": request,
                     "exception": f"{errtype}: {exception}",
                 },
             )
         if output == "json":
-            return {
-                "exception": f"{errtype}: {exception}",
-            }
+            return ORJSONResponse(
+                status_code=500,
+                content={
+                    "exception": f"{errtype}: {exception}",
+                },
+            )
+            return
 
         if output == "redirect":
             raise HTTPException(
@@ -213,6 +219,7 @@ async def api(
     if output == "html":
         return templates.TemplateResponse(
             "success.html",
+            status_code=200,
             context={
                 "request": request,
                 "new_url": f"{new_url}",
@@ -220,9 +227,12 @@ async def api(
         )
 
     if output == "json":
-        return {
-            "new_url": f"{new_url}",
-        }
+        return ORJSONResponse(
+            status_code=200,
+            content={
+                "new_url": f"{new_url}",
+            },
+        )
 
     if output == "redirect":
         return RedirectResponse(
@@ -246,6 +256,7 @@ async def not_found_error_handle(
     )
     return templates.TemplateResponse(
         "error.html",
+        status_code=400,
         context={
             "request": request,
             "exception": f"error 400 {errortype}: {the_error_name}",
@@ -264,6 +275,7 @@ async def not_found_error_handle(
     request_path = request_path.path
     return templates.TemplateResponse(
         "error.html",
+        status_code=404,
         context={
             "request": request,
             "exception": f"error 404: page {request_path} is not found",
@@ -289,6 +301,7 @@ if show_server_errors:
         )
         return templates.TemplateResponse(
             "error.html",
+            status_code=500,
             context={
                 "request": request,
                 "exception": f"internal server error: {errortype}: {the_error_name}",
