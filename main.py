@@ -11,8 +11,8 @@ from starlette import __version__ as starlette_version
 from typing import Optional
 from loguru import logger
 from platform import python_version
-from config import host
-from config import port
+from config import app_host
+from config import app_port
 from config import show_server_errors
 from config import app_title
 from config import app_description
@@ -315,8 +315,8 @@ else:
 if __name__ == "__main__":
     uvicorn.run(
         app=app,
-        host=host,
-        port=port,
+        host=app_host,
+        port=app_port,
     )
 else:
     sys.exit(
