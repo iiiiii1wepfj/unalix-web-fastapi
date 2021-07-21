@@ -17,6 +17,7 @@ from config import show_server_errors
 from config import app_title
 from config import app_description
 from config import app_version
+from config import app_debug_mode
 import uvicorn
 import unalix
 import re
@@ -25,9 +26,11 @@ import sys
 
 app = FastAPI(
     docs_url=None,
+    redoc_url=None,
     title=app_title,
     description=app_description,
     version=app_version,
+    debug=app_debug_mode,
 )
 
 templates = Jinja2Templates(
