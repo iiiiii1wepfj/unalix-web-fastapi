@@ -1,8 +1,8 @@
 port_str = "8000"
 
-port = int(port_str)
+app_port = int(port_str)
 
-host = "0.0.0.0"
+app_host = "0.0.0.0"
 
 app_title = "Unalix-web"
 
