@@ -3,11 +3,20 @@ from fastapi import Request
 from fastapi import __version__ as fastapi_version
 from fastapi.exceptions import HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.openapi.docs import get_redoc_html
 from fastapi.responses import RedirectResponse
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette import __version__ as starlette_version
+
+try:
+    from starlette.middleware.cors import ALL_METHODS
+except:
+    ALL_METHODS = [
+        "POST",
+        "GET",
+    ]
 from typing import Optional
 from typing import Literal
 from loguru import logger
@@ -119,14 +128,29 @@ async def app_shutdown_actions():
     )
 
 
-@app.get(
+@app.api_route(
     "/docs",
     include_in_schema=False,
+    methods=ALL_METHODS,
 )
-async def docs_route_func():
+async def docs_swagger_route_func():
     the_openapi_url = app.openapi_url
     the_docs_title = app.title + " docs"
     return get_swagger_ui_html(
+        openapi_url=the_openapi_url,
+        title=the_docs_title,
+    )
+
+
+@app.api_route(
+    "/redoc",
+    include_in_schema=False,
+    methods=ALL_METHODS,
+)
+async def docs_redoc_route_func():
+    the_openapi_url = app.openapi_url
+    the_docs_title = app.title + " docs"
+    return get_redoc_html(
         openapi_url=the_openapi_url,
         title=the_docs_title,
     )
