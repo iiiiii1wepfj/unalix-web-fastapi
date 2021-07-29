@@ -12,6 +12,7 @@ from starlette import __version__ as starlette_version
 import jinja2
 import orjson
 import aiofiles
+import pydantic
 
 
 try:
@@ -117,6 +118,7 @@ async def app_startup_actions():
     jinja2_version = jinja2.__version__
     orjson_version = orjson.__version__
     aiofiles_version = aiofiles.__version__
+    pydantic_version = pydantic.version.VERSION
     logger.info(
         "app started.\n"
         f"python version: {py_version}\n"
@@ -127,7 +129,8 @@ async def app_startup_actions():
         f"uvicorn version: {uvicorn_version}\n"
         f"jinja2 version: {jinja2_version}\n"
         f"orjson version: {orjson_version}\n"
-        f"aiofiles version: {aiofiles_version}"
+        f"aiofiles version: {aiofiles_version}\n"
+        f"pydantic version: {pydantic_version}"
     )
 
 
