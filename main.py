@@ -9,6 +9,8 @@ from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette import __version__ as starlette_version
+import jinja2
+import orjson
 
 try:
     from starlette.middleware.cors import ALL_METHODS
@@ -110,6 +112,8 @@ async def app_startup_actions():
     py_version = python_version()
     unalix_version = unalix.__version__
     uvicorn_version = uvicorn.__version__
+    jinja2_version = jinja2.__version__
+    orjson_version = orjson.__version__
     logger.info(
         "app started.\n"
         f"python version: {py_version}\n"
@@ -117,7 +121,9 @@ async def app_startup_actions():
         f"unalix version: {unalix_version}\n"
         f"fastapi version: {fastapi_version}\n"
         f"starlette version: {starlette_version}\n"
-        f"uvicorn version: {uvicorn_version}"
+        f"uvicorn version: {uvicorn_version}\n"
+        f"jinja2 version: {jinja2_version}\n"
+        f"orjson version: {orjson_version}"
     )
 
 
