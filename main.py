@@ -11,6 +11,8 @@ from fastapi.templating import Jinja2Templates
 from starlette import __version__ as starlette_version
 import jinja2
 import orjson
+import aiofiles
+
 
 try:
     from starlette.middleware.cors import ALL_METHODS
@@ -114,6 +116,7 @@ async def app_startup_actions():
     uvicorn_version = uvicorn.__version__
     jinja2_version = jinja2.__version__
     orjson_version = orjson.__version__
+    aiofiles_version = aiofiles.__version__
     logger.info(
         "app started.\n"
         f"python version: {py_version}\n"
@@ -123,7 +126,8 @@ async def app_startup_actions():
         f"starlette version: {starlette_version}\n"
         f"uvicorn version: {uvicorn_version}\n"
         f"jinja2 version: {jinja2_version}\n"
-        f"orjson version: {orjson_version}"
+        f"orjson version: {orjson_version}\n"
+        f"aiofiles version: {aiofiles_version}"
     )
 
 
