@@ -17,6 +17,7 @@ from config import app_port
 from config import show_server_errors
 from config import app_title
 from config import app_description
+from config import log_format
 from config import app_version
 from config import app_debug_mode
 import uvicorn
@@ -48,7 +49,7 @@ app.mount(
 logger.add(
     sys.stdout,
     colorize=True,
-    format="<green>{time:HH:mm:ss}</green> | {level} | <level>{message}</level>",
+    format=log_format,
 )
 
 
