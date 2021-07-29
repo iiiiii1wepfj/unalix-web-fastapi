@@ -86,7 +86,13 @@ async def app_startup_actions():
     unalix_version = unalix.__version__
     uvicorn_version = uvicorn.__version__
     logger.info(
-        f"app started.\npython version: {py_version}\napp version: {app_version}\nunalix version: {unalix_version}\nfastapi version: {fastapi_version}\nstarlette version: {starlette_version}\nuvicorn version: {uvicorn_version}"
+        "app started.\n"
+        f"python version: {py_version}\n"
+        f"app version: {app_version}\n"
+        f"unalix version: {unalix_version}\n"
+        f"fastapi version: {fastapi_version}\n"
+        f"starlette version: {starlette_version}\n"
+        f"uvicorn version: {uvicorn_version}"
     )
 
 
