@@ -213,27 +213,30 @@ async def api(
             exception,
         )
         if output == "html":
+            errmsgone = f"{errtype}: {exception}"
             return templates.TemplateResponse(
                 "error.html",
                 status_code=500,
                 context={
                     "request": request,
-                    "exception": f"{errtype}: {exception}",
+                    "exception": f"{errmsgone}",
                 },
             )
         if output == "json":
+            errmsgone = f"{errtype}: {exception}"
             return ORJSONResponse(
                 status_code=500,
                 content={
-                    "exception": f"{errtype}: {exception}",
+                    "exception": f"{errmsgone}",
                 },
             )
             return
 
         if output == "redirect":
+            errmsgone = f"{errtype}: {exception}"
             raise HTTPException(
                 status_code=500,
-                detail=f"{errtype}: {exception}",
+                detail=f"{errmsgone}",
             )
 
     if output == "html":
@@ -274,12 +277,13 @@ async def not_found_error_handle(
     the_error_name = await get_error_message(
         error=the_error,
     )
+    errmsgone = f"{errortype}: {the_error_name}"
     return templates.TemplateResponse(
         "error.html",
         status_code=400,
         context={
             "request": request,
-            "exception": f"error 400 {errortype}: {the_error_name}",
+            "exception": f"error 400 {errmsgone}",
         },
     )
 
@@ -339,12 +343,13 @@ if show_server_errors:
         the_error_name = await get_error_message(
             error=the_error,
         )
+        errmsgone = f"{errortype}: {the_error_name}"
         return templates.TemplateResponse(
             "error.html",
             status_code=500,
             context={
                 "request": request,
-                "exception": f"internal server error: {errortype}: {the_error_name}",
+                "exception": f"internal server error: {errmsgone}",
             },
         )
 
