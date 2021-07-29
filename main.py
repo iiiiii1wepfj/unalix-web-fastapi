@@ -25,6 +25,7 @@ except:
 from typing import Optional
 from typing import Literal
 from loguru import logger
+from loguru import __version__ as loguru_version
 from platform import python_version
 from config import app_host
 from config import app_port
@@ -119,6 +120,7 @@ async def app_startup_actions():
     orjson_version = orjson.__version__
     aiofiles_version = aiofiles.__version__
     pydantic_version = pydantic.version.VERSION
+    re_version = re.__version__
     logger.info(
         "app started.\n"
         f"python version: {py_version}\n"
@@ -130,7 +132,9 @@ async def app_startup_actions():
         f"jinja2 version: {jinja2_version}\n"
         f"orjson version: {orjson_version}\n"
         f"aiofiles version: {aiofiles_version}\n"
-        f"pydantic version: {pydantic_version}"
+        f"pydantic version: {pydantic_version}\n"
+        f"re version: {re_version}\n"
+        f"loguru version: {loguru_version}"
     )
 
 
