@@ -10,6 +10,8 @@ app_description = "source code: https://github.com/AmanoTeam/unalix-web-fastapi.
 
 app_version = "2.0"
 
+log_format = "<green>{time:HH:mm:ss}</green> | {level} | <level>{message}</level>"
+
 app_debug_mode = False
 
 show_server_errors = False
