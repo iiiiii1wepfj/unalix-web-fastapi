@@ -9,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette import __version__ as starlette_version
 from typing import Optional
+from typing import Literal
 from loguru import logger
 from platform import python_version
 from config import app_host
@@ -48,6 +49,18 @@ logger.add(
     sys.stdout,
     colorize=True,
     format="<green>{time:HH:mm:ss}</green> | {level} | <level>{message}</level>",
+)
+
+
+output_options = (
+    "html",
+    "json",
+    "redirect",
+)
+
+method_optings = (
+    "unshort",
+    "clear",
 )
 
 
@@ -147,9 +160,9 @@ async def home(
 )
 async def api(
     request: Request,
-    method: Optional[str] = None,
+    method: Optional[Literal[method_optings]] = None,
     url: Optional[str] = None,
-    output: Optional[str] = None,
+    output: Optional[Literal[output_options]] = None,
 ):
     if url:
         old_url = await check_url(
@@ -166,20 +179,17 @@ async def api(
     if not method:
         method = "unshort"
 
-    if not output in [
-        "json",
-        "html",
-        "redirect",
-    ]:
+    if not output in list(
+        output_options,
+    ):
         raise HTTPException(
             status_code=400,
             detail="invalid output type, the supported output types are json or html or redirect.",
         )
 
-    if not method in [
-        "clear",
-        "unshort",
-    ]:
+    if not method in list(
+        method_optings,
+    ):
         raise HTTPException(
             status_code=400,
             detail="invalid method type, the supported method types are clear or unshort.",
