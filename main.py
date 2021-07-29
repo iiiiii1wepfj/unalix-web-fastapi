@@ -72,6 +72,8 @@ method_optings = (
     "unshort",
     "clear",
 )
+methodliteraloptions = Literal[method_optings]
+outputliteraloptions = Literal[output_options]
 
 
 async def check_url(
@@ -185,9 +187,9 @@ async def home(
 )
 async def api(
     request: Request,
-    method: Optional[Literal[method_optings]] = None,
+    method: Optional[methodliteraloptions] = None,
     url: Optional[str] = None,
-    output: Optional[Literal[output_options]] = None,
+    output: Optional[outputliteraloptions] = None,
 ):
     if url:
         old_url = await check_url(
