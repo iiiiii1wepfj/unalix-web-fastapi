@@ -377,7 +377,7 @@ async def method_not_allowed_error_handle(
         status_code=405,
         context={
             "request": request,
-            "exception": f"error 405: method not allowed.",
+            "exception": "error 405: method not allowed.",
         },
     )
 
