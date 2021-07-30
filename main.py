@@ -245,6 +245,7 @@ async def api(
         )
     else:
         return RedirectResponse(
+            status_code=307,
             url="/docs",
         )
 
@@ -333,6 +334,7 @@ async def api(
 
     if output == "redirect":
         return RedirectResponse(
+            status_code=307,
             url=new_url,
         )
 
@@ -435,7 +437,7 @@ if show_server_errors:
             status_code=500,
             context={
                 "request": request,
-                "exception": f"internal server error: {errmsgone}.",
+                "exception": f"error 500 internal server error: {errmsgone}.",
             },
         )
 
