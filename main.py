@@ -267,7 +267,7 @@ async def api(
                 status_code=500,
                 context={
                     "request": request,
-                    "exception": f"{errmsgone}",
+                    "exception": f"{errmsgone}.",
                 },
             )
         if output == "json":
@@ -293,7 +293,7 @@ async def api(
             status_code=200,
             context={
                 "request": request,
-                "new_url": f"{new_url}",
+                "new_url": f"{new_url}.",
             },
         )
 
@@ -331,7 +331,7 @@ async def not_found_error_handle(
         status_code=400,
         context={
             "request": request,
-            "exception": f"error 400 {errmsgone}",
+            "exception": f"error 400 {errmsgone}.",
         },
     )
 
@@ -353,7 +353,7 @@ async def page_not_found_error_handle(
         status_code=404,
         context={
             "request": request,
-            "exception": f"error 404: page {request_full_url} is not found",
+            "exception": f"error 404: page {request_full_url} is not found.",
         },
     )
 
@@ -370,7 +370,7 @@ async def method_not_allowed_error_handle(
         status_code=405,
         context={
             "request": request,
-            "exception": f"error 405: method not allowed",
+            "exception": f"error 405: method not allowed.",
         },
     )
 
@@ -397,7 +397,7 @@ if show_server_errors:
             status_code=500,
             context={
                 "request": request,
-                "exception": f"internal server error: {errmsgone}",
+                "exception": f"internal server error: {errmsgone}.",
             },
         )
 
@@ -413,5 +413,5 @@ if __name__ == "__main__":
     )
 else:
     sys.exit(
-        1,
+        "you can't import this.",
     )
