@@ -40,6 +40,7 @@ from config import app_description
 from config import log_format
 from config import app_version
 from config import app_debug_mode
+from datetime import datetime
 import uvicorn
 import unalix
 import re
@@ -128,6 +129,8 @@ async def app_startup_actions():
     pydantic_version = pydantic.version.VERSION
     re_version = re.__version__
     app_pid = os.getpid()
+    the_time_datetime = datetime.now()
+    the_year_now = the_time_datetime.year
     logger.info(
         "app started.\n"
         f"python version: {py_version},\n"
@@ -143,6 +146,7 @@ async def app_startup_actions():
         f"re version: {re_version},\n"
         f"loguru version: {loguru_version},\n"
         f"app pid: {app_pid}."
+        f"\n\n© {the_year_now} Amano Team.\n\n"
     )
 
 
