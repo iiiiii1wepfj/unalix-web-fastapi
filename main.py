@@ -293,7 +293,7 @@ async def api(
             status_code=200,
             context={
                 "request": request,
-                "new_url": f"{new_url}.",
+                "new_url": f"{new_url}",
             },
         )
 
