@@ -20,6 +20,12 @@ the_license_name = "LGPL-3.0 License"
 
 the_license_link = "https://www.gnu.org/licenses/lgpl-3.0.en.html"
 
+org_name = "AmanoTeam"
+
+org_website = "https://amanoteam.com"
+
+org_mail = "contact@amanoteam.com"
+
 app_debug_mode = False
 
 show_server_errors = False
