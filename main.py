@@ -354,7 +354,10 @@ async def page_not_found_error_handle(
     request_path = request_path.path
     request_url = request.client
     request_url = request_url.host
-    request_full_url = f"{request_url}{request_path}"
+    request_url_http_or_https = request.url
+    request_url_http_or_https = request_url_http_or_https.scheme
+    request_url_http_or_https = f"{request_url_http_or_https}://"
+    request_full_url = f"{request_url_http_or_https}{request_url}{request_path}"
     return templates.TemplateResponse(
         "error.html",
         status_code=404,
@@ -372,12 +375,21 @@ async def method_not_allowed_error_handle(
     request: Request,
     the_error: HTTPException,
 ):
+    request_http_method = request.method
+    request_path = request.url
+    request_path = request_path.path
+    request_url = request.client
+    request_url = request_url.host
+    request_url_http_or_https = request.url
+    request_url_http_or_https = request_url_http_or_https.scheme
+    request_url_http_or_https = f"{request_url_http_or_https}://"
+    request_full_url = f"{request_url_http_or_https}{request_url}{request_path}"
     return templates.TemplateResponse(
         "error.html",
         status_code=405,
         context={
             "request": request,
-            "exception": "error 405: method not allowed.",
+            "exception": f"error 405: method {request_http_method} is not allowed for {request_full_url}.",
         },
     )
 
