@@ -38,6 +38,8 @@ from config import show_server_errors
 from config import app_title
 from config import app_description
 from config import log_format
+from config import the_license_name
+from config import the_license_link
 from config import app_version
 from config import app_debug_mode
 from datetime import datetime
@@ -48,6 +50,12 @@ import sys
 import os
 
 
+the_license_info = {
+    "name": f"{the_license_name}",
+    "url": f"{the_license_link}",
+}
+
+
 app = FastAPI(
     docs_url=None,
     redoc_url=None,
@@ -55,6 +63,7 @@ app = FastAPI(
     description=app_description,
     version=app_version,
     debug=app_debug_mode,
+    license_info=the_license_info,
 )
 
 templates = Jinja2Templates(
@@ -66,6 +75,7 @@ app.mount(
     app=StaticFiles(
         directory="static",
     ),
+    name="static",
 )
 
 logger.add(
