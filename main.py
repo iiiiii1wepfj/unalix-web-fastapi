@@ -40,6 +40,9 @@ from config import app_description
 from config import log_format
 from config import the_license_name
 from config import the_license_link
+from config import org_name
+from config import org_website
+from config import org_mail
 from config import app_version
 from config import app_debug_mode
 from datetime import datetime
@@ -55,6 +58,11 @@ the_license_info = {
     "url": f"{the_license_link}",
 }
 
+the_contact_info = {
+    "name": f"{org_name}",
+    "url": f"{org_website}",
+    "email": f"{org_mail}",
+}
 
 app = FastAPI(
     docs_url=None,
@@ -63,6 +71,7 @@ app = FastAPI(
     description=app_description,
     version=app_version,
     debug=app_debug_mode,
+    contact=the_contact_info,
     license_info=the_license_info,
 )
 
