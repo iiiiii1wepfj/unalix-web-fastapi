@@ -69,7 +69,7 @@ app.mount(
 )
 
 logger.add(
-    sys.stdout,
+    sink=sys.stdout,
     colorize=True,
     format=log_format,
 )
@@ -117,7 +117,7 @@ async def get_error_message(
 
 
 @app.on_event(
-    "startup",
+    event_type="startup",
 )
 async def app_startup_actions():
     py_version = get_python_version()
@@ -151,7 +151,7 @@ async def app_startup_actions():
 
 
 @app.on_event(
-    "shutdown",
+    event_type="shutdown",
 )
 async def app_shutdown_actions():
     logger.info(
@@ -160,7 +160,7 @@ async def app_shutdown_actions():
 
 
 @app.api_route(
-    "/docs",
+    path="/docs",
     include_in_schema=False,
     methods=ALL_METHODS,
 )
@@ -174,7 +174,7 @@ async def docs_swagger_route_func():
 
 
 @app.api_route(
-    "/redoc",
+    path="/redoc",
     include_in_schema=False,
     methods=ALL_METHODS,
 )
@@ -188,7 +188,7 @@ async def docs_redoc_route_func():
 
 
 @app.api_route(
-    "/",
+    path="/",
     include_in_schema=False,
     methods=[
         "POST",
@@ -199,7 +199,7 @@ async def home(
     request: Request,
 ):
     return templates.TemplateResponse(
-        "index.html",
+        name="index.html",
         status_code=200,
         context={
             "request": request,
@@ -208,7 +208,7 @@ async def home(
 
 
 @app.api_route(
-    "/api",
+    path="/api",
     methods=[
         "POST",
         "GET",
@@ -226,7 +226,7 @@ async def api(
         )
     else:
         return RedirectResponse(
-            "/docs",
+            url="/docs",
         )
 
     if not output:
@@ -254,12 +254,12 @@ async def api(
     try:
         if method == "unshort":
             new_url = unalix.unshort_url(
-                old_url,
+                url=old_url,
                 parse_documents=True,
             )
         elif method == "clear":
             new_url = unalix.clear_url(
-                old_url,
+                url=old_url,
             )
     except unalix.exceptions.ConnectError as exception:
         new_url = exception.url
@@ -270,7 +270,7 @@ async def api(
         if output == "html":
             errmsgone = f"{errtype}: {exception}"
             return templates.TemplateResponse(
-                "error.html",
+                name="error.html",
                 status_code=500,
                 context={
                     "request": request,
@@ -296,7 +296,7 @@ async def api(
 
     if output == "html":
         return templates.TemplateResponse(
-            "success.html",
+            name="success.html",
             status_code=200,
             context={
                 "request": request,
@@ -314,12 +314,12 @@ async def api(
 
     if output == "redirect":
         return RedirectResponse(
-            new_url,
+            url=new_url,
         )
 
 
 @app.exception_handler(
-    400,
+    exc_class_or_status_code=400,
 )
 async def not_found_error_handle(
     request: Request,
@@ -334,7 +334,7 @@ async def not_found_error_handle(
     )
     errmsgone = f"{errortype}: {the_error_name}"
     return templates.TemplateResponse(
-        "error.html",
+        name="error.html",
         status_code=400,
         context={
             "request": request,
@@ -344,7 +344,7 @@ async def not_found_error_handle(
 
 
 @app.exception_handler(
-    404,
+    exc_class_or_status_code=404,
 )
 async def page_not_found_error_handle(
     request: Request,
@@ -359,7 +359,7 @@ async def page_not_found_error_handle(
     request_url_http_or_https = f"{request_url_http_or_https}://"
     request_full_url = f"{request_url_http_or_https}{request_url}{request_path}"
     return templates.TemplateResponse(
-        "error.html",
+        name="error.html",
         status_code=404,
         context={
             "request": request,
@@ -369,7 +369,7 @@ async def page_not_found_error_handle(
 
 
 @app.exception_handler(
-    405,
+    exc_class_or_status_code=405,
 )
 async def method_not_allowed_error_handle(
     request: Request,
@@ -385,7 +385,7 @@ async def method_not_allowed_error_handle(
     request_url_http_or_https = f"{request_url_http_or_https}://"
     request_full_url = f"{request_url_http_or_https}{request_url}{request_path}"
     return templates.TemplateResponse(
-        "error.html",
+        name="error.html",
         status_code=405,
         context={
             "request": request,
@@ -397,7 +397,7 @@ async def method_not_allowed_error_handle(
 if show_server_errors:
 
     @app.exception_handler(
-        500,
+        exc_class_or_status_code=500,
     )
     async def internal_server_error(
         request: Request,
@@ -412,7 +412,7 @@ if show_server_errors:
         )
         errmsgone = f"{errortype}: {the_error_name}"
         return templates.TemplateResponse(
-            "error.html",
+            name="error.html",
             status_code=500,
             context={
                 "request": request,
