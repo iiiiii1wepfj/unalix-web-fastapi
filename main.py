@@ -21,6 +21,11 @@ except:
     ALL_METHODS = [
         "POST",
         "GET",
+        "HEAD",
+        "OPTIONS",
+        "DELETE",
+        "PATCH",
+        "PUT",
     ]
 from typing import Optional
 from typing import Literal
