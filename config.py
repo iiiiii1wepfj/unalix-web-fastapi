@@ -16,6 +16,10 @@ app_version = str(app_version_two)
 
 log_format = "<green>{time:HH:mm:ss}</green> | {level} | <level>{message}</level>"
 
+the_license_name = "LGPL-3.0 License"
+
+the_license_link = "https://www.gnu.org/licenses/lgpl-3.0.en.html"
+
 app_debug_mode = False
 
 show_server_errors = False
