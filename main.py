@@ -44,6 +44,7 @@ import uvicorn
 import unalix
 import re
 import sys
+import os
 
 
 app = FastAPI(
@@ -126,6 +127,7 @@ async def app_startup_actions():
     aiofiles_version = aiofiles.__version__
     pydantic_version = pydantic.version.VERSION
     re_version = re.__version__
+    app_pid = os.getpid()
     logger.info(
         "app started.\n"
         f"python version: {py_version},\n"
@@ -139,7 +141,8 @@ async def app_startup_actions():
         f"aiofiles version: {aiofiles_version},\n"
         f"pydantic version: {pydantic_version},\n"
         f"re version: {re_version},\n"
-        f"loguru version: {loguru_version}."
+        f"loguru version: {loguru_version},\n"
+        f"app pid: {app_pid}."
     )
 
 
