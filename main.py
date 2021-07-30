@@ -31,7 +31,7 @@ from typing import Optional
 from typing import Literal
 from loguru import logger
 from loguru import __version__ as loguru_version
-from platform import python_version
+from platform import python_version as get_python_version
 from config import app_host
 from config import app_port
 from config import show_server_errors
@@ -118,7 +118,7 @@ async def get_error_message(
     "startup",
 )
 async def app_startup_actions():
-    py_version = python_version()
+    py_version = get_python_version()
     unalix_version = unalix.__version__
     uvicorn_version = uvicorn.__version__
     jinja2_version = jinja2.__version__
