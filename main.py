@@ -128,18 +128,18 @@ async def app_startup_actions():
     re_version = re.__version__
     logger.info(
         "app started.\n"
-        f"python version: {py_version}\n"
-        f"app version: {app_version}\n"
-        f"unalix version: {unalix_version}\n"
-        f"fastapi version: {fastapi_version}\n"
-        f"starlette version: {starlette_version}\n"
-        f"uvicorn version: {uvicorn_version}\n"
-        f"jinja2 version: {jinja2_version}\n"
-        f"orjson version: {orjson_version}\n"
-        f"aiofiles version: {aiofiles_version}\n"
-        f"pydantic version: {pydantic_version}\n"
-        f"re version: {re_version}\n"
-        f"loguru version: {loguru_version}"
+        f"python version: {py_version},\n"
+        f"app version: {app_version},\n"
+        f"unalix version: {unalix_version},\n"
+        f"fastapi version: {fastapi_version},\n"
+        f"starlette version: {starlette_version},\n"
+        f"uvicorn version: {uvicorn_version},\n"
+        f"jinja2 version: {jinja2_version},\n"
+        f"orjson version: {orjson_version},\n"
+        f"aiofiles version: {aiofiles_version},\n"
+        f"pydantic version: {pydantic_version},\n"
+        f"re version: {re_version},\n"
+        f"loguru version: {loguru_version}."
     )
 
 
