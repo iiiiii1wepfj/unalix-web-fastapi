@@ -373,8 +373,8 @@ async def page_not_found_error_handle(
 ):
     request_path = request.url
     request_path = request_path.path
-    request_url = request.client
-    request_url = request_url.host
+    request_url = request.url
+    request_url = request_url.hostname
     request_url_http_or_https = request.url
     request_url_http_or_https = request_url_http_or_https.scheme
     request_url_http_or_https = f"{request_url_http_or_https}://"
@@ -399,8 +399,8 @@ async def method_not_allowed_error_handle(
     request_http_method = request.method
     request_path = request.url
     request_path = request_path.path
-    request_url = request.client
-    request_url = request_url.host
+    request_url = request.url
+    request_url = request_url.hostname
     request_url_http_or_https = request.url
     request_url_http_or_https = request_url_http_or_https.scheme
     request_url_http_or_https = f"{request_url_http_or_https}://"
