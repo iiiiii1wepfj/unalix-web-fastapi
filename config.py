@@ -28,4 +28,6 @@ org_mail = "contact@amanoteam.com"
 
 app_debug_mode = False
 
+unalix_conf_http_timeout = 10
+
 show_server_errors = False
