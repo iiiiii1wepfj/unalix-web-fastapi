@@ -323,7 +323,9 @@ async def api(
             errmsgone = f"{errtype}: {exception}"
             return XMLResponse(
                 status_code=500,
-                content={"exception": f"{errmsgone}"},
+                content={
+                    "exception": f"{errmsgone}",
+                },
             )
 
         if output == "redirect":
