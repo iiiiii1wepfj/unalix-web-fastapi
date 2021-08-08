@@ -58,10 +58,15 @@ import os
 
 
 # https://github.com/tiangolo/fastapi/issues/558
-class XMLResponse(StarletteResponseObject):
+class XMLResponse(
+    StarletteResponseObject,
+):
     media_type = "application/xml"
 
-    def render(self, content: Any) -> bytes:
+    def render(
+        self,
+        content: Any,
+    ) -> bytes:
         json_res_one = {
             "response": content,
         }
