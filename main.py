@@ -56,6 +56,7 @@ import sys
 import os
 
 
+# https://github.com/tiangolo/fastapi/issues/558
 class XMLResponse(StarletteResponseObject):
     media_type = "application/xml"
 
