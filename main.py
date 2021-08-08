@@ -65,8 +65,12 @@ class XMLResponse(StarletteResponseObject):
         json_res_one = {
             "response": content,
         }
-        res_one = simplexml.dumps(json_res_one)
-        res = res_one.encode("utf-8")
+        res_one = simplexml.dumps(
+            json_res_one,
+        )
+        res = res_one.encode(
+            "utf-8",
+        )
         return res
 
 
