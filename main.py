@@ -46,6 +46,7 @@ from config import org_name
 from config import org_website
 from config import org_mail
 from config import app_version
+from config import unalix_conf_http_timeout
 from config import app_debug_mode
 from datetime import datetime
 import simplexml
@@ -63,6 +64,8 @@ class XMLResponse(StarletteResponseObject):
     def render(self, content: Any) -> bytes:
         return simplexml.dumps({"response": content}).encode("utf-8")
 
+
+unalix.config.HTTP_TIMEOUT = unalix_conf_http_timeout
 
 the_license_info = {
     "name": f"{the_license_name}",
