@@ -3,3 +3,4 @@ uvicorn
 unalix
 loguru
 orjson
+python-simplexml
