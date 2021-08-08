@@ -6,7 +6,7 @@ app_host = "0.0.0.0"
 
 app_title = "Unalix-web"
 
-app_description = 'source code: <a href="https://github.com/AmanoTeam/unalix-web-fastapi">https://github.com/AmanoTeam/unalix-web-fastapi</a>.'
+app_description = '# links <p>source code: <a href="https://github.com/AmanoTeam/unalix-web-fastapi">https://github.com/AmanoTeam/unalix-web-fastapi</a></p><p>donations: <a href="https://amanoteam.com/donate">https://amanoteam.com/donate</a></p>'
 
 app_version_one = "2.0"
 
