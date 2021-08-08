@@ -8,6 +8,7 @@ from fastapi.responses import RedirectResponse
 from fastapi.responses import ORJSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.responses import Response as StarletteResponseObject
 from starlette import __version__ as starlette_version
 import jinja2
 import orjson
@@ -29,6 +30,7 @@ except:
     ]
 from typing import Optional
 from typing import Literal
+from typing import Any
 from loguru import logger
 from loguru import __version__ as loguru_version
 from platform import python_version as get_python_version
@@ -46,11 +48,19 @@ from config import org_mail
 from config import app_version
 from config import app_debug_mode
 from datetime import datetime
+import simplexml
 import uvicorn
 import unalix
 import re
 import sys
 import os
+
+
+class XMLResponse(StarletteResponseObject):
+    media_type = "application/xml"
+
+    def render(self, content: Any) -> bytes:
+        return simplexml.dumps({"response": content}).encode("utf-8")
 
 
 the_license_info = {
@@ -97,6 +107,7 @@ logger.add(
 output_options = (
     "html",
     "json",
+    "xml",
     "redirect",
 )
 
@@ -147,6 +158,7 @@ async def app_startup_actions():
     aiofiles_version = aiofiles.__version__
     pydantic_version = pydantic.version.VERSION
     re_version = re.__version__
+    simplexml_version = simplexml.__version__
     app_pid = os.getpid()
     the_time_datetime = datetime.now()
     the_year_now = the_time_datetime.year
@@ -164,6 +176,7 @@ async def app_startup_actions():
         f"pydantic version: {pydantic_version},\n"
         f"re version: {re_version},\n"
         f"loguru version: {loguru_version},\n"
+        f"simplexml version: {simplexml_version},\n"
         f"app pid: {app_pid}."
         f"\n\n© {the_year_now} Amano Team.\n\n"
     )
@@ -260,7 +273,7 @@ async def api(
     ):
         raise HTTPException(
             status_code=400,
-            detail="invalid output type, the supported output types are json or html or redirect.",
+            detail="invalid output type, the supported output types are json or or xml or html or redirect.",
         )
 
     if not method in list(
@@ -305,7 +318,12 @@ async def api(
                     "exception": f"{errmsgone}",
                 },
             )
-            return
+        if output == "xml":
+            errmsgone = f"{errtype}: {exception}"
+            return XMLResponse(
+                status_code=500,
+                content={"exception": f"{errmsgone}"},
+            )
 
         if output == "redirect":
             errmsgone = f"{errtype}: {exception}"
@@ -326,6 +344,13 @@ async def api(
 
     if output == "json":
         return ORJSONResponse(
+            status_code=200,
+            content={
+                "new_url": f"{new_url}",
+            },
+        )
+    if output == "xml":
+        return XMLResponse(
             status_code=200,
             content={
                 "new_url": f"{new_url}",
