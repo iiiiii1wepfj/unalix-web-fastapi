@@ -62,7 +62,12 @@ class XMLResponse(StarletteResponseObject):
     media_type = "application/xml"
 
     def render(self, content: Any) -> bytes:
-        return simplexml.dumps({"response": content}).encode("utf-8")
+        json_res_one = {
+            "response": content,
+        }
+        res_one = simplexml.dumps(json_res_one)
+        res = res_one.encode("utf-8")
+        return res
 
 
 unalix.config.HTTP_TIMEOUT = unalix_conf_http_timeout
