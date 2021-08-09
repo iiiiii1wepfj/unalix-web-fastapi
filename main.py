@@ -205,6 +205,7 @@ async def app_startup_actions():
     pydantic_version = pydantic.version.VERSION
     re_version = re.__version__
     simplexml_version = simplexml.__version__
+    toml_version = toml.__version__
     app_pid = os.getpid()
     the_time_datetime = datetime.now()
     the_year_now = the_time_datetime.year
@@ -223,6 +224,7 @@ async def app_startup_actions():
         f"re version: {re_version},\n"
         f"loguru version: {loguru_version},\n"
         f"simplexml version: {simplexml_version},\n"
+        f"toml version: {toml_version},\n"
         f"app pid: {app_pid}."
         f"\n\n© {the_year_now} Amano Team.\n\n"
     )
