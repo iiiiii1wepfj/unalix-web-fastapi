@@ -49,8 +49,9 @@ from config import app_version
 from config import unalix_conf_http_timeout
 from config import app_debug_mode
 from datetime import datetime
-import simplexml
 import uvicorn
+import yaml
+import simplexml
 import unalix
 import re
 import sys
@@ -77,6 +78,13 @@ class XMLResponse(
             "utf-8",
         )
         return res
+
+
+class YAMLResponse(
+    StarletteResponseObject,
+):
+
+    media_type = "application/yaml"
 
 
 unalix.config.HTTP_TIMEOUT = unalix_conf_http_timeout
@@ -126,6 +134,7 @@ output_options = (
     "html",
     "json",
     "xml",
+    "yaml",
     "redirect",
 )
 
@@ -291,7 +300,7 @@ async def api(
     ):
         raise HTTPException(
             status_code=400,
-            detail="invalid output type, the supported output types are json or or xml or html or redirect.",
+            detail="invalid output type, the supported output types are json or or xml or yaml or html or redirect.",
         )
 
     if not method in list(
@@ -344,7 +353,15 @@ async def api(
                     "exception": f"{errmsgone}",
                 },
             )
-
+        if output == "yaml":
+            errmsgone = f"{errtype}: {exception}"
+            jsonres = {
+                "exception": f"{errmsgone}",
+            }
+            return YAMLResponse(
+                status_code=500,
+                content=yaml.dump(jsonres),
+            )
         if output == "redirect":
             errmsgone = f"{errtype}: {exception}"
             raise HTTPException(
@@ -376,12 +393,22 @@ async def api(
                 "new_url": f"{new_url}",
             },
         )
-
+    if output == "yaml":
+        jsonres = {
+            "new_url": f"{new_url}",
+        }
+        return YAMLResponse(
+            status_code=200,
+            content=yaml.dump(jsonres),
+        )
     if output == "redirect":
         return RedirectResponse(
             status_code=307,
             url=new_url,
         )
+
+
+YAMLResponse
 
 
 @app.exception_handler(
