@@ -88,6 +88,13 @@ class YAMLResponse(
     media_type = "application/yaml"
 
 
+class JSONPResponse(
+    StarletteResponseObject,
+):
+
+    media_type = "application/javascript"
+
+
 unalix.config.HTTP_TIMEOUT = unalix_conf_http_timeout
 
 the_license_info = {
@@ -134,6 +141,7 @@ logger.add(
 output_options = (
     "html",
     "json",
+    "jsonp",
     "xml",
     "yaml",
     "text",
@@ -302,7 +310,7 @@ async def api(
     ):
         raise HTTPException(
             status_code=400,
-            detail="invalid output type, the supported output types are json or or xml or yaml or text or html or redirect.",
+            detail="invalid output type, the supported output types are json or jsonp or xml or yaml or text or html or redirect.",
         )
 
     if not method in list(
@@ -346,6 +354,15 @@ async def api(
                 content={
                     "exception": f"{errmsgone}",
                 },
+            )
+        if output == "jsonp":
+            errmsgone = f"{errtype}: {exception}"
+            resjson = {
+                "exception": f"{errmsgone}",
+            }
+            return JSONPResponse(
+                status_code=500,
+                content=f"response({resjson})",
             )
         if output == "xml":
             errmsgone = f"{errtype}: {exception}"
@@ -392,6 +409,14 @@ async def api(
             content={
                 "new_url": f"{new_url}",
             },
+        )
+    if output == "jsonp":
+        jsonres = {
+            "new_url": f"{new_url}",
+        }
+        return JSONPResponse(
+            status_code=200,
+            content=f"response({jsonres})",
         )
     if output == "xml":
         return XMLResponse(
