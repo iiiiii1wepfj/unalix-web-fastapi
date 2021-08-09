@@ -52,6 +52,7 @@ from config import app_debug_mode
 from datetime import datetime
 import uvicorn
 import yaml
+import toml
 import simplexml
 import unalix
 import re
@@ -93,6 +94,13 @@ class JSONPResponse(
 ):
 
     media_type = "application/javascript"
+
+
+class TOMLResponse(
+    StarletteResponseObject,
+):
+
+    media_type = "application/toml"
 
 
 unalix.config.HTTP_TIMEOUT = unalix_conf_http_timeout
@@ -144,6 +152,7 @@ output_options = (
     "jsonp",
     "xml",
     "yaml",
+    "toml",
     "text",
     "redirect",
 )
@@ -310,7 +319,7 @@ async def api(
     ):
         raise HTTPException(
             status_code=400,
-            detail="invalid output type, the supported output types are json or jsonp or xml or yaml or text or html or redirect.",
+            detail="invalid output type, the supported output types are json or jsonp or xml or yaml or toml or text or html or redirect.",
         )
 
     if not method in list(
@@ -334,9 +343,10 @@ async def api(
     except unalix.exceptions.ConnectError as exception:
         new_url = exception.url
     except Exception as exception:
-        errtype = type(
+        errtype_one = type(
             exception,
         )
+        errtype = errtype_one.__name__
         if output == "html":
             errmsgone = f"{errtype}: {exception}"
             return templates.TemplateResponse(
@@ -374,12 +384,23 @@ async def api(
             )
         if output == "yaml":
             errmsgone = f"{errtype}: {exception}"
-            jsonres = {
-                "exception": f"{errmsgone}",
-            }
-            return YAMLResponse(
+            return templates.TemplateResponse(
+                name="error.html",
                 status_code=500,
-                content=yaml.dump(jsonres),
+                context={
+                    "request": request,
+                    "exception": f"{errmsgone}.",
+                },
+            )
+        if output == "toml":
+            errmsgone = f"{errtype}: {exception}"
+            return templates.TemplateResponse(
+                name="error.html",
+                status_code=500,
+                context={
+                    "request": request,
+                    "exception": f"{errmsgone}.",
+                },
             )
         if output == "text":
             return PlainTextResponse(
@@ -432,6 +453,14 @@ async def api(
         return YAMLResponse(
             status_code=200,
             content=yaml.dump(jsonres),
+        )
+    if output == "toml":
+        jsonres = {
+            "new_url": f"{new_url}",
+        }
+        return TOMLResponse(
+            status_code=200,
+            content=toml.dumps(jsonres),
         )
     if output == "text":
         return PlainTextResponse(
