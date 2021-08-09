@@ -4,3 +4,4 @@ unalix
 loguru
 orjson
 python-simplexml
+toml
