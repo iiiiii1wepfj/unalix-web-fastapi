@@ -6,6 +6,7 @@ from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.docs import get_redoc_html
 from fastapi.responses import RedirectResponse
 from fastapi.responses import ORJSONResponse
+from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.responses import Response as StarletteResponseObject
@@ -135,6 +136,7 @@ output_options = (
     "json",
     "xml",
     "yaml",
+    "text",
     "redirect",
 )
 
@@ -300,7 +302,7 @@ async def api(
     ):
         raise HTTPException(
             status_code=400,
-            detail="invalid output type, the supported output types are json or or xml or yaml or html or redirect.",
+            detail="invalid output type, the supported output types are json or or xml or yaml or text or html or redirect.",
         )
 
     if not method in list(
@@ -362,6 +364,11 @@ async def api(
                 status_code=500,
                 content=yaml.dump(jsonres),
             )
+        if output == "text":
+            return PlainTextResponse(
+                status_code=500,
+                content=f"{errtype}: {exception}",
+            )
         if output == "redirect":
             errmsgone = f"{errtype}: {exception}"
             raise HTTPException(
@@ -401,14 +408,16 @@ async def api(
             status_code=200,
             content=yaml.dump(jsonres),
         )
+    if output == "text":
+        return PlainTextResponse(
+            status_code=200,
+            content=new_url,
+        )
     if output == "redirect":
         return RedirectResponse(
             status_code=307,
             url=new_url,
         )
-
-
-YAMLResponse
 
 
 @app.exception_handler(
