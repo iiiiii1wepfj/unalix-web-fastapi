@@ -15,12 +15,11 @@ except:
     orjson_version = "not found"
 from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from starlette.responses import Response as StarletteResponseObject
 from starlette import __version__ as starlette_version
-import jinja2
 import aiofiles
 import pydantic
+import sys
 
 
 try:
@@ -37,6 +36,13 @@ except:
     )
     ALL_METHODS = list(
         ALL_METHODS_ONE,
+    )
+try:
+    from fastapi.templating import Jinja2Templates
+    import jinja2
+except:
+    sys.exit(
+        "jinja2 not found, do pip3 install jinja2",
     )
 from typing import Optional
 from typing import Literal
@@ -65,7 +71,6 @@ import toml
 import simplexml
 import unalix
 import re
-import sys
 import os
 
 
