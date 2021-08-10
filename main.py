@@ -164,8 +164,26 @@ method_optings = (
     "unshort",
     "clear",
 )
+
 methodliteraloptions = Literal[method_optings]
 outputliteraloptions = Literal[output_options]
+
+home_http_methods_one = (
+    "POST",
+    "GET",
+)
+
+api_http_methods_one = (
+    "POST",
+    "GET",
+)
+
+home_http_methods = list(
+    home_http_methods_one,
+)
+api_http_methods = list(
+    api_http_methods_one,
+)
 
 
 async def check_url(
@@ -273,10 +291,7 @@ async def docs_redoc_route_func():
 @app.api_route(
     path="/",
     include_in_schema=False,
-    methods=[
-        "POST",
-        "GET",
-    ],
+    methods=home_http_methods,
 )
 async def home(
     request: Request,
@@ -292,10 +307,7 @@ async def home(
 
 @app.api_route(
     path="/api",
-    methods=[
-        "POST",
-        "GET",
-    ],
+    methods=api_http_methods,
 )
 async def api(
     request: Request,
