@@ -49,6 +49,12 @@ except:
     sys.exit(
         "aiofiles is not found, do pip3 install aiofiles",
     )
+try:
+    import unalix
+except:
+    sys.exit(
+        "unalix is not found, do pip3 install unalix",
+    )
 from typing import Optional
 from typing import Literal
 from typing import Any
@@ -74,7 +80,6 @@ import uvicorn
 import yaml
 import toml
 import simplexml
-import unalix
 import re
 import os
 
