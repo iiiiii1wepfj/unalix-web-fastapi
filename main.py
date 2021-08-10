@@ -454,7 +454,9 @@ async def api(
         }
         return YAMLResponse(
             status_code=200,
-            content=yaml.dump(jsonres),
+            content=yaml.dump(
+                jsonres,
+            ),
         )
     if output == "toml":
         jsonres = {
@@ -462,7 +464,9 @@ async def api(
         }
         return TOMLResponse(
             status_code=200,
-            content=toml.dumps(jsonres),
+            content=toml.dumps(
+                jsonres,
+            ),
         )
     if output == "text":
         return PlainTextResponse(
