@@ -34,6 +34,10 @@ org_mail = "contact@amanoteam.com"
 
 app_debug_mode = False
 
-unalix_conf_http_timeout = 10
+unalix_conf_http_timeout_one = "10"
+
+unalix_conf_http_timeout = int(
+    unalix_conf_http_timeout_one,
+)
 
 show_server_errors = False
