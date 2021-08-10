@@ -165,9 +165,6 @@ method_optings = (
     "clear",
 )
 
-methodliteraloptions = Literal[method_optings]
-outputliteraloptions = Literal[output_options]
-
 home_http_methods_one = (
     "POST",
     "GET",
@@ -177,6 +174,10 @@ api_http_methods_one = (
     "POST",
     "GET",
 )
+
+methodliteraloptions = Literal[method_optings]
+
+outputliteraloptions = Literal[output_options]
 
 home_http_methods = list(
     home_http_methods_one,
