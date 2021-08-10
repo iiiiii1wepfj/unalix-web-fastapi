@@ -1,3 +1,4 @@
+import sys
 from fastapi import FastAPI
 from fastapi import Request
 from fastapi import __version__ as fastapi_version
@@ -16,8 +17,13 @@ except:
 from fastapi.responses import PlainTextResponse
 from starlette.responses import Response as StarletteResponseObject
 from starlette import __version__ as starlette_version
-import pydantic
-import sys
+
+try:
+    import pydantic
+except:
+    sys.exit(
+        "pydantic is not found, do pip3 install pydantic",
+    )
 
 
 try:
