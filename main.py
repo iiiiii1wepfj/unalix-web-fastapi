@@ -55,11 +55,16 @@ except:
     sys.exit(
         "unalix is not found, do pip3 install unalix",
     )
+try:
+    from loguru import logger
+    from loguru import __version__ as loguru_version
+except:
+    sys.exit(
+        "loguru is not found, do pip3 install loguru",
+    )
 from typing import Optional
 from typing import Literal
 from typing import Any
-from loguru import logger
-from loguru import __version__ as loguru_version
 from platform import python_version as get_python_version
 from config import app_host
 from config import app_port
