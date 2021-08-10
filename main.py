@@ -14,10 +14,8 @@ except:
 
     orjson_version = "not found"
 from fastapi.responses import PlainTextResponse
-from fastapi.staticfiles import StaticFiles
 from starlette.responses import Response as StarletteResponseObject
 from starlette import __version__ as starlette_version
-import aiofiles
 import pydantic
 import sys
 
@@ -42,7 +40,14 @@ try:
     import jinja2
 except:
     sys.exit(
-        "jinja2 not found, do pip3 install jinja2",
+        "jinja2 is not found, do pip3 install jinja2",
+    )
+try:
+    from fastapi.staticfiles import StaticFiles
+    import aiofiles
+except:
+    sys.exit(
+        "aiofiles is not found, do pip3 install aiofiles",
     )
 from typing import Optional
 from typing import Literal
