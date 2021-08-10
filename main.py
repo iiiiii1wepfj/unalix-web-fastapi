@@ -230,8 +230,11 @@ async def app_startup_actions():
     app_pid = os.getpid()
     the_time_datetime = datetime.now()
     the_year_now = the_time_datetime.year
+    app_port_str = str(
+        app_port,
+    )
     logger.info(
-        "app started.\n"
+        f"app {app_title} started.\n"
         f"python version: {py_version},\n"
         f"app version: {app_version},\n"
         f"unalix version: {unalix_version},\n"
@@ -246,7 +249,8 @@ async def app_startup_actions():
         f"loguru version: {loguru_version},\n"
         f"simplexml version: {simplexml_version},\n"
         f"toml version: {toml_version},\n"
-        f"app pid: {app_pid}."
+        f"app pid: {app_pid}.\n"
+        f"running on port {app_port_str}."
         f"\n\n© {the_year_now} Amano Team.\n\n"
     )
 
@@ -256,7 +260,7 @@ async def app_startup_actions():
 )
 async def app_shutdown_actions():
     logger.info(
-        "app stopped, bye.",
+        f"app {app_title} stopped, bye.",
     )
 
 
