@@ -224,7 +224,8 @@ async def app_startup_actions():
     jinja2_version = jinja2.__version__
     orjson_version = orjson.__version__
     aiofiles_version = aiofiles.__version__
-    pydantic_version = pydantic.version.VERSION
+    pydantic_version_one = pydantic.version
+    pydantic_version = pydantic_version_one.VERSION
     re_version = re.__version__
     simplexml_version = simplexml.__version__
     toml_version = toml.__version__
