@@ -337,17 +337,21 @@ async def api(
     if not method:
         method = "unshort"
 
-    if not output in list(
+    outputlist = list(
         output_options,
-    ):
+    )
+
+    if not output in outputlist:
         raise HTTPException(
             status_code=400,
             detail="invalid output type, the supported output types are json or jsonp or xml or yaml or toml or text or html or redirect.",
         )
 
-    if not method in list(
+    methodslist = list(
         method_optings,
-    ):
+    )
+
+    if not method in methodslist:
         raise HTTPException(
             status_code=400,
             detail="invalid method type, the supported method types are clear or unshort.",
