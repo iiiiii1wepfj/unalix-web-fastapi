@@ -20,7 +20,7 @@ import pydantic
 try:
     from starlette.middleware.cors import ALL_METHODS
 except:
-    ALL_METHODS = [
+    ALL_METHODS_ONE = (
         "POST",
         "GET",
         "HEAD",
@@ -28,7 +28,10 @@ except:
         "DELETE",
         "PATCH",
         "PUT",
-    ]
+    )
+    ALL_METHODS = list(
+        ALL_METHODS_ONE,
+    )
 from typing import Optional
 from typing import Literal
 from typing import Any
