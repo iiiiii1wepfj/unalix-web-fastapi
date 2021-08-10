@@ -5,14 +5,20 @@ from fastapi.exceptions import HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.docs import get_redoc_html
 from fastapi.responses import RedirectResponse
-from fastapi.responses import ORJSONResponse
+
+try:
+    from fastapi.responses import ORJSONResponse as fastapijsonres
+    from orjson import __version__ as orjson_version
+except:
+    from fastapi.responses import JSONResponse as fastapijsonres
+
+    orjson_version = "not found"
 from fastapi.responses import PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.responses import Response as StarletteResponseObject
 from starlette import __version__ as starlette_version
 import jinja2
-import orjson
 import aiofiles
 import pydantic
 
@@ -222,7 +228,6 @@ async def app_startup_actions():
     unalix_version = unalix.__version__
     uvicorn_version = uvicorn.__version__
     jinja2_version = jinja2.__version__
-    orjson_version = orjson.__version__
     aiofiles_version = aiofiles.__version__
     pydantic_version_one = pydantic.version
     pydantic_version = pydantic_version_one.VERSION
@@ -386,7 +391,7 @@ async def api(
             )
         if output == "json":
             errmsgone = f"{errtype}: {exception}"
-            return ORJSONResponse(
+            return fastapijsonres(
                 status_code=500,
                 content={
                     "exception": f"{errmsgone}",
@@ -452,7 +457,7 @@ async def api(
         )
 
     if output == "json":
-        return ORJSONResponse(
+        return fastapijsonres(
             status_code=200,
             content={
                 "new_url": f"{new_url}",
