@@ -115,7 +115,7 @@ import os
 class XMLResponse(
     StarletteResponseObject,
 ):
-    media_type = "application/xml"
+    media_type: str = "application/xml"
 
     def render(
         self,
@@ -137,21 +137,21 @@ class YAMLResponse(
     StarletteResponseObject,
 ):
 
-    media_type = "application/yaml"
+    media_type: str = "application/yaml"
 
 
 class JSONPResponse(
     StarletteResponseObject,
 ):
 
-    media_type = "application/javascript"
+    media_type: str = "application/javascript"
 
 
 class TOMLResponse(
     StarletteResponseObject,
 ):
 
-    media_type = "application/toml"
+    media_type: str = "application/toml"
 
 
 unalix.config.HTTP_TIMEOUT = unalix_conf_http_timeout
