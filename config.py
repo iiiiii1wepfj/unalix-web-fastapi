@@ -20,7 +20,7 @@ app_version = str(
     app_version_two,
 )
 
-log_format = "<green>{time:HH:mm:ss}</green> | {level} | <level>{message}</level>"
+log_format: str = "<green>{time:HH:mm:ss}</green> | {level} | <level>{message}</level>"
 
 the_license_name: str = "LGPL-3.0 License"
 
