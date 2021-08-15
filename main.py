@@ -140,12 +140,12 @@ class TOMLResponse(
 
 unalix.config.HTTP_TIMEOUT = unalix_conf_http_timeout
 
-the_license_info = {
+the_license_info: dict = {
     "name": f"{the_license_name}",
     "url": f"{the_license_link}",
 }
 
-the_contact_info = {
+the_contact_info: dict = {
     "name": f"{org_name}",
     "url": f"{org_website}",
     "email": f"{org_mail}",
@@ -363,10 +363,10 @@ async def api(
         )
 
     if not output:
-        output = "html"
+        output: str = "html"
 
     if not method:
-        method = "unshort"
+        method: str = "unshort"
 
     outputlist = list(
         output_options,
@@ -574,8 +574,8 @@ async def page_not_found_error_handle(
     request_url = request_url.hostname
     request_url_http_or_https = request.url
     request_url_http_or_https = request_url_http_or_https.scheme
-    request_url_http_or_https = f"{request_url_http_or_https}://"
-    request_full_url = f"{request_url_http_or_https}{request_url}{request_path}"
+    request_url_http_or_https: str = f"{request_url_http_or_https}://"
+    request_full_url: str = f"{request_url_http_or_https}{request_url}{request_path}"
     return templates.TemplateResponse(
         name="error.html",
         status_code=404,
@@ -600,8 +600,8 @@ async def method_not_allowed_error_handle(
     request_url = request_url.hostname
     request_url_http_or_https = request.url
     request_url_http_or_https = request_url_http_or_https.scheme
-    request_url_http_or_https = f"{request_url_http_or_https}://"
-    request_full_url = f"{request_url_http_or_https}{request_url}{request_path}"
+    request_url_http_or_https: str = f"{request_url_http_or_https}://"
+    request_full_url: str = f"{request_url_http_or_https}{request_url}{request_path}"
     return templates.TemplateResponse(
         name="error.html",
         status_code=405,
