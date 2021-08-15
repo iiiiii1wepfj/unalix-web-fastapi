@@ -1,22 +1,34 @@
 import sys
 from fastapi import FastAPI
 from fastapi import Request
-from fastapi import __version__ as fastapi_version
+from fastapi import (
+    __version__ as fastapi_version,
+)
 from fastapi.exceptions import HTTPException
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.openapi.docs import get_redoc_html
 from fastapi.responses import RedirectResponse
 
 try:
-    from fastapi.responses import ORJSONResponse as fastapijsonres
-    from orjson import __version__ as orjson_version
+    from fastapi.responses import (
+        ORJSONResponse as fastapijsonres,
+    )
+    from orjson import (
+        __version__ as orjson_version,
+    )
 except:
-    from fastapi.responses import JSONResponse as fastapijsonres
+    from fastapi.responses import (
+        JSONResponse as fastapijsonres,
+    )
 
-    orjson_version = "not found"
+    orjson_version: str = "not found"
 from fastapi.responses import PlainTextResponse
-from starlette.responses import Response as StarletteResponseObject
-from starlette import __version__ as starlette_version
+from starlette.responses import (
+    Response as StarletteResponseObject,
+)
+from starlette import (
+    __version__ as starlette_version,
+)
 
 try:
     import pydantic
@@ -63,7 +75,9 @@ except:
     )
 try:
     from loguru import logger
-    from loguru import __version__ as loguru_version
+    from loguru import (
+        __version__ as loguru_version,
+    )
 except:
     sys.exit(
         "loguru is not found, do pip3 install loguru",
@@ -71,7 +85,9 @@ except:
 from typing import Optional
 from typing import Literal
 from typing import Any
-from platform import python_version as get_python_version
+from platform import (
+    python_version as get_python_version,
+)
 from config import app_host
 from config import app_port
 from config import show_server_errors
